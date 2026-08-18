@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Goal - TRING!</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent;}
+        
+        body { 
+            background-color: #09802f; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            min-height: 100vh; 
+        }
+        
+        .app-container { 
+            width: 100%; 
+            max-width: 400px; 
+            /* GRADASI BACKGROUND KHAS TRING PEGADAIAN */
+            background: linear-gradient(180deg, #09802f 0%, #12933a 25%, #def2e3 60%, #eaf6ed 100%);
+            background-attachment: fixed;
+            min-height: 100vh; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            position: relative; 
+            padding-bottom: 100px; /* Space for floating bottom nav */
+            overflow-x: hidden; 
+        }
+        
+        /* Header (Teks Putih) */
+        .header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px; background-color: transparent; position: sticky; top: 0; z-index: 10; 
+        }
+        .icon-btn { 
+            background: rgba(255,255,255,0.2); border: none; width: 32px; height: 32px; 
+            border-radius: 50%; display: flex; justify-content: center; align-items: center; 
+            font-size: 16px; cursor: pointer; color: #ffffff; 
+        }
+        .header h2 { font-size: 18px; font-weight: 800; color: #ffffff; }
+        
+        /* Hero Section (Teks Disesuaikan) */
+        .hero { padding: 0 20px 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .hero-text h1 { font-size: 20px; color: #ffffff; line-height: 1.3; margin-bottom: 8px; font-weight: 800; }
+        .hero-text h1 span { color: #ffeba1; }
+        .hero-text p { font-size: 11px; color: rgba(255,255,255,0.9); line-height: 1.4; max-width: 190px; }
+        .hero-img { font-size: 65px; line-height: 1; margin-right: -10px; }
+        
+        /* Summary Card */
+        .summary-card { 
+            margin: 0 20px 20px 20px; padding: 15px 20px; border-radius: 16px; 
+            background-color: #ffffff; border: 1px solid rgba(255,255,255,0.2); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; justify-content: space-between; 
+        }
+        .summary-item { flex: 1; }
+        .summary-item:last-child { border-left: 1px solid #eee; padding-left: 20px; }
+        .summary-label { font-size: 10px; color: #666; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; font-weight: 600; }
+        .summary-value { font-size: 18px; font-weight: 800; color: #09802f; margin-bottom: 4px; }
+        .summary-sub { font-size: 11px; color: #666; }
+        .badge-price { background-color: #eaf6ed; padding: 4px 8px; border-radius: 6px; font-size: 9px; color: #09802f; font-weight: 600; display: inline-block; }
+        
+        /* Goal List Header */
+        .section-header { padding: 15px 20px 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .section-header h3 { font-size: 14px; font-weight: 800; color: #1a1a1a; }
+        .sort-btn { font-size: 12px; color: #156535; font-weight: 700; background: rgba(255,255,255,0.5); padding: 4px 10px; border-radius: 12px; border: 1px solid #156535; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+        
+        /* Goal Cards */
+        .goal-list { padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
+        .goal-card { background: white; border: 1px solid #eee; border-radius: 16px; padding: 15px; display: flex; gap: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); position: relative; }
+        
+        .goal-img-wrapper { position: relative; width: 65px; height: 65px; border-radius: 12px; background-color: #f0f0f0; flex-shrink: 0; display: flex; justify-content: center; align-items: center; font-size: 30px; }
+        .goal-icon { position: absolute; bottom: -6px; right: -6px; background: #2e7d32; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        .goal-info { flex: 1; display: flex; flex-direction: column; }
+        .goal-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
+        .goal-title { font-size: 13px; font-weight: 800; color: #1a1a1a; display: flex; align-items: center; gap: 4px; }
+        .goal-target { font-size: 10px; color: #666; margin-bottom: 12px; }
+        
+        .goal-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
+        .progress-section { flex: 1; display: flex; flex-direction: column; }
+        
+        .progress-header { display: flex; justify-content: flex-end; margin-bottom: 4px; }
+        .progress-percentage { font-size: 11px; font-weight: 800; }
+        .text-green { color: #2e7d32; }
+        .text-orange { color: #e69b00; }
+        
+        .progress-bar-bg { width: 100%; height: 5px; background-color: #f0f0f0; border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+        .progress-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease-out; }
+        .bg-green { background-color: #2e7d32; }
+        .bg-orange { background-color: #f5b041; }
+        
+        .progress-stats { display: flex; justify-content: space-between; font-size: 9px; color: #888; font-weight: 600; }
+        
+        .btn-kelola { background-color: #f0f7f3; color: #156535; border: 1px solid #dcf0e3; border-radius: 10px; padding: 8px 10px; font-size: 10px; font-weight: 800; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; height: 100%; min-width: 55px; }
+        .btn-kelola span { font-size: 16px; }
+
+        /* Dropdown Menu */
+        .dropdown-menu { display: none; position: absolute; right: 15px; top: 40px; background: white; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 20; }
+        .dropdown-menu.active { display: block; }
+        .dropdown-item { padding: 10px 15px; font-size: 12px; color: #333; cursor: pointer; border-bottom: 1px solid #f0f0f0; font-weight: 600; }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item.delete { color: #c0392b; }
+
+        /* Add Button */
+        .btn-add-goal { margin: 20px; width: calc(100% - 40px); padding: 14px; background-color: #ffffff; border: 1.5px dashed #156535; border-radius: 16px; color: #156535; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        
+        /* Bottom Info Section */
+        .info-bottom { margin: 0 20px; background-color: #ffffff; border-radius: 16px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #eee; }
+        .info-bottom h4 { font-size: 11px; color: #1a1a1a; margin-bottom: 12px; font-weight: 800; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .info-item { display: flex; flex-direction: column; gap: 4px; }
+        .info-item-title { font-size: 10px; font-weight: 800; color: #1a1a1a; }
+        .info-item-desc { font-size: 8px; color: #666; line-height: 1.4; font-weight: 500;}
+
+        /* Floating Bottom Nav TRING Style */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 360px;
+            background-color: #044b26; 
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 10px;
+            z-index: 100;
+            box-shadow: 0 8px 24px rgba(4, 75, 38, 0.3);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 9px;
+            color: #8dae9d;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        /* Modals */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; display: none; justify-content: center; align-items: flex-end; }
+        .modal-content { background: white; width: 100%; max-width: 400px; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 25px 20px; transform: translateY(100%); transition: transform 0.3s ease-out; }
+        .modal-overlay.active { display: flex; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header h3 { font-size: 16px; font-weight: 800; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; color: #666; margin-bottom: 8px; font-weight: 700; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; outline: none; background-color: #f9f9f9; font-weight: 600;}
+        .form-group input:focus, .form-group select:focus { border-color: #156535; background-color: white;}
+        .btn-submit { width: 100%; background: linear-gradient(135deg, #09802f 0%, #12933a 100%); color: white; padding: 14px; border: none; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(9, 128, 47, 0.2); }
+    </style>
+</head>
+<body onclick="closeAllDropdowns()">
+
+<div class="app-container">
+    
+    <!-- Header -->
+    <div class="header">
+        <button class="icon-btn" style="color:white; font-size:20px;" onclick="window.location.href='home.html'">←</button>
+        <h2>Life Goal</h2>
+        <button class="icon-btn">ⓘ</button>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-text">
+            <h1>Wujudkan impianmu<br>dengan <span>Tabungan Emas</span></h1>
+            <p>Buat kantong khusus untuk setiap tujuanmu. Capai target, lalu jual atau gadaikan emasnya!</p>
+        </div>
+        <div class="hero-img">💰</div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-card">
+        <div class="summary-item">
+            <div class="summary-label">Total Emas Tersimpan 👁️</div>
+            <div class="summary-value" id="totalGramValue">0,00 gram</div>
+            <div class="summary-sub" id="totalRupiah">≈ Rp 0</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">Total Nilai</div>
+            <div class="summary-value" id="totalValue" style="color: #1a1a1a;">Rp 0</div>
+            <div class="badge-price" id="goldPriceBadge">Memuat harga...</div>
+        </div>
+    </div>
+
+    <!-- Section Header -->
+    <div class="section-header">
+        <h3>Kantong Goal Kamu</h3>
+        <button class="sort-btn">Urutkan ↕️</button>
+    </div>
+
+    <!-- Goal List Container -->
+    <div class="goal-list" id="goalListContainer">
+        <!-- Rendered by JS -->
+    </div>
+
+    <!-- Add Button -->
+    <button class="btn-add-goal" onclick="openModal('add')">
+        <span style="font-size: 18px; font-weight: normal;">⊕</span> Tambah Kantong Goal Baru
+    </button>
+    
+    <!-- Bottom Info -->
+    <div class="info-bottom">
+        <h4>Apa yang bisa kamu lakukan?</h4>
+        <div class="info-grid">
+            <div class="info-item">
+                <span style="font-size: 24px; margin-bottom: 2px;">💰</span>
+                <div class="info-item-title">Capai Target</div>
+                <div class="info-item-desc">Pantau progres dan capai tujuanmu</div>
+            </div>
+            <div class="info-item">
+                <span style="font-size: 24px; margin-bottom: 2px;">📈</span>
+                <div class="info-item-title">Jual Emas</div>
+                <div class="info-item-desc">Jual emas dari kantong kamu kapan saja</div>
+            </div>
+            <div class="info-item">
+                <span style="font-size: 24px; margin-bottom: 2px;">💳</span>
+                <div class="info-item-title">Gadai Emas</div>
+                <div class="info-item-desc">Butuh dana cepat? Gadai emasnya</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <div class="nav-icon">🏠</div>
+            <span>Home</span>
+        </div>
+        <div class="nav-item active">
+            <div class="nav-icon">💎</div>
+            <span>Emas</span>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">🧾</div>
+            <span>Gadai</span>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">📊</div>
+            <span>Portofolio</span>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">👤</div>
+            <span>Akun</span>
+        </div>
+    </div>
+
+    <!-- 1. Modal Add/Edit Goal -->
+    <div class="modal-overlay" id="goalModal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="goalModalTitle">Buat Kantong Baru</h3>
+                <button class="icon-btn" style="color:#1a1a1a; background: #f5f6f8;" onclick="closeModal('goalModal')">✕</button>
+            </div>
+            <input type="hidden" id="goalActionType">
+            <input type="hidden" id="editGoalId">
+            <div class="form-group">
+                <label>Nama Impian / Goal</label>
+                <input type="text" id="inputNama" placeholder="Contoh: Beli Laptop Baru">
+            </div>
+            <div class="form-group">
+                <label>Target Dana (Rp)</label>
+                <input type="number" id="inputTarget" placeholder="Contoh: 10000000">
+            </div>
+            <button class="btn-submit" onclick="submitGoal()">Simpan Kantong</button>
+        </div>
+    </div>
+
+    <!-- 2. Modal Transaction -->
+    <div class="modal-overlay" id="transactionModal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="transactionTitle">Kelola Kantong</h3>
+                <button class="icon-btn" style="color:#1a1a1a; background: #f5f6f8;" onclick="closeModal('transactionModal')">✕</button>
+            </div>
+            <input type="hidden" id="transactionGoalId">
+            <div class="form-group">
+                <label>Jenis Transaksi</label>
+                <select id="transactionType">
+                    <option value="add">Top-Up (Tambah Emas)</option>
+                    <option value="sell">Jual (Tarik Emas)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Jumlah Gram Emas</label>
+                <input type="number" step="0.01" id="transactionInputGram" placeholder="Contoh: 1.5">
+            </div>
+            <p id="transactionError" style="color: #c0392b; font-size: 12px; margin-bottom: 15px; display: none; font-weight: 600; text-align: center;"></p>
+            <button class="btn-submit" onclick="submitTransaction()">Konfirmasi Transaksi</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- 1. STATE VARIABLES ---
+    let HARGA_EMAS_PER_GRAM = 1621000;
+    let nextGoalId = 5;
+
+    // --- 2. LOCALSTORAGE PERSISTENCE ---
+    const STORAGE_KEY = 'lifegoalState_v1';
+
+    let goalsData = [
+        { id: 1, nama: "Konser Coldplay 2027 🎉", image: "../Lampiran/Coldplay.jpg", imgColor: "#111", icon: "🎵", targetRp: 3500000, terkumpulGram: 1.55, barColor: "green" },
+        { id: 2, nama: "iPhone 18 Pro 📱", image: "../Lampiran/Iphone18 Pro.jpg", imgColor: "#333", icon: "📱", targetRp: 18000000, terkumpulGram: 4.22, barColor: "orange" },
+        { id: 3, nama: "Liburan ke Jepang ✈️", image: "../Lampiran/Japan.png", imgColor: "#87CEEB", icon: "✈️", targetRp: 15000000, terkumpulGram: 8.79, barColor: "green" },
+        { id: 4, nama: "Dana Pendidikan S2 📚", image: "../Lampiran/s2.jpg", imgColor: "#8B7355", icon: "🎓", targetRp: 25000000, terkumpulGram: 1.85, barColor: "green" }
+    ];
+
+    function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(goalsData));
+    }
+
+    function loadState() {
+        const savedState = localStorage.getItem(STORAGE_KEY);
+        if (savedState) {
+            goalsData = JSON.parse(savedState);
+            // Update nextGoalId to prevent id collision
+            if(goalsData.length > 0) {
+               nextGoalId = Math.max(...goalsData.map(g => g.id)) + 1;
+            }
+        }
+    }
+
+    // --- FORMATTING UTILS ---
+    function formatRp(angka) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka); }
+    function formatGram(angka) { return angka.toFixed(2).replace('.', ','); }
+
+    // --- RENDER UI ---
+    function updateSummary() {
+        let totalGram = goalsData.reduce((sum, goal) => sum + goal.terkumpulGram, 0);
+        let totalVal = totalGram * HARGA_EMAS_PER_GRAM;
+        
+        document.getElementById('totalGramValue').textContent = `${formatGram(totalGram)} gram`;
+        document.getElementById('totalRupiah').textContent = `≈ ${formatRp(totalVal)}`;
+        document.getElementById('totalValue').textContent = formatRp(totalVal);
+        document.getElementById('goldPriceBadge').textContent = `Harga Emas: ${formatRp(HARGA_EMAS_PER_GRAM)}/gr`;
+    }
+
+    function renderGoals() {
+        const container = document.getElementById('goalListContainer');
+        container.innerHTML = '';
+
+        goalsData.forEach(goal => {
+            const targetGram = goal.targetRp / HARGA_EMAS_PER_GRAM;
+            const percentage = Math.min((goal.terkumpulGram / targetGram) * 100, 100);
+            const sisaGram = Math.max(targetGram - goal.terkumpulGram, 0);
+            
+            const colorClass = goal.barColor === 'green' || percentage >= 50 ? 'bg-green' : 'bg-orange';
+            const textClass = goal.barColor === 'green' || percentage >= 50 ? 'text-green' : 'text-orange';
+
+            const imageElement = goal.image 
+                ? `<img src="${goal.image}" alt="${goal.nama}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; border-radius: 12px;">` 
+                : `<div style="font-size: 30px;">${goal.icon}</div>`;
+
+            container.innerHTML += `
+                <div class="goal-card">
+                    <div class="goal-img-wrapper" style="background-color: ${goal.imgColor};">
+                        ${imageElement}
+                        <div class="goal-icon">${goal.icon}</div>
+                    </div>
+                    <div class="goal-info">
+                        <div class="goal-title-row">
+                            <div class="goal-title">${goal.nama}</div>
+                            <button class="icon-btn" onclick="toggleMenu(event, ${goal.id})" style="font-size: 16px; font-weight: bold; padding-bottom: 5px; width: 20px; height: 20px; background: transparent; color: #1a1a1a;">⋮</button>
+                            <div class="dropdown-menu" id="menu-${goal.id}">
+                                <div class="dropdown-item" onclick="openModal('edit', ${goal.id})">✎ Edit Kantong</div>
+                                <div class="dropdown-item delete" onclick="deleteGoal(event, ${goal.id})">🗑 Hapus</div>
+                            </div>
+                        </div>
+                        <div class="goal-target">Target: ${formatRp(goal.targetRp)} (${formatGram(targetGram)} gr)</div>
+                        
+                        <div class="goal-bottom-row">
+                            <div class="progress-section">
+                                <div class="progress-header">
+                                    <span class="progress-percentage ${textClass}">${percentage.toFixed(0)}%</span>
+                                </div>
+                                <div class="progress-bar-bg"><div class="progress-bar-fill ${colorClass}" style="width: ${percentage}%;"></div></div>
+                                <div class="progress-stats">
+                                    <span>${formatGram(goal.terkumpulGram)} gr terkumpul</span>
+                                    <span>${formatGram(sisaGram)} gr lagi</span>
+                                </div>
+                            </div>
+                            <button class="btn-kelola" onclick="openTransactionModal(${goal.id})">
+                                <span>💰</span>Kelola
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        updateSummary();
+    }
+
+    // --- MODAL CONTROLLERS ---
+    function openModal(action, id = null) {
+        document.getElementById('goalActionType').value = action;
+        if (action === 'add') {
+            document.getElementById('goalModalTitle').textContent = 'Buat Kantong Baru';
+            document.getElementById('inputNama').value = '';
+            document.getElementById('inputTarget').value = '';
+        } else if (action === 'edit' && id !== null) {
+            document.getElementById('goalModalTitle').textContent = 'Edit Kantong';
+            const goal = goalsData.find(g => g.id === id);
+            document.getElementById('editGoalId').value = goal.id;
+            document.getElementById('inputNama').value = goal.nama;
+            document.getElementById('inputTarget').value = goal.targetRp;
+        }
+        document.getElementById('goalModal').classList.add('active');
+        closeAllDropdowns();
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
+    }
+
+    // --- CRUD GOALS ---
+    function submitGoal() {
+        const action = document.getElementById('goalActionType').value;
+        const nama = document.getElementById('inputNama').value;
+        const targetRp = parseFloat(document.getElementById('inputTarget').value);
+
+        if (!nama || !targetRp || targetRp <= 0) {
+            alert("Harap lengkapi nama impian dan nominal target yang valid.");
+            return;
+        }
+
+        if (action === 'add') {
+            goalsData.unshift({ id: nextGoalId++, nama: nama, imgColor: "#156535", image: "", icon: "🎯", targetRp: targetRp, terkumpulGram: 0, barColor: "orange" });
+        } else if (action === 'edit') {
+            const id = parseInt(document.getElementById('editGoalId').value);
+            const index = goalsData.findIndex(g => g.id === id);
+            if (index > -1) {
+                goalsData[index].nama = nama;
+                goalsData[index].targetRp = targetRp;
+            }
+        }
+        
+        saveState();
+        renderGoals();
+        closeModal('goalModal');
+    }
+
+    function deleteGoal(event, id) {
+        event.stopPropagation();
+        if (confirm("Apakah Anda yakin ingin menghapus kantong ini?")) {
+            goalsData = goalsData.filter(g => g.id !== id);
+            saveState();
+            renderGoals();
+        }
+        closeAllDropdowns();
+    }
+
+    // --- TRANSAKSI (TOPUP/SELL) ---
+    function openTransactionModal(goalId) {
+        document.getElementById('transactionGoalId').value = goalId;
+        const goal = goalsData.find(g => g.id === goalId);
+        document.getElementById('transactionInputGram').value = '';
+        document.getElementById('transactionError').style.display = 'none';
+        document.getElementById('transactionModal').classList.add('active');
+    }
+
+    function submitTransaction() {
+        const id = parseInt(document.getElementById('transactionGoalId').value);
+        const type = document.getElementById('transactionType').value;
+        const amount = parseFloat(document.getElementById('transactionInputGram').value);
+        const errorEl = document.getElementById('transactionError');
+
+        if (!amount || amount <= 0) {
+            errorEl.textContent = 'Masukkan jumlah gram yang valid!';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        const index = goalsData.findIndex(g => g.id === id);
+        if (type === 'sell' && amount > goalsData[index].terkumpulGram) {
+            errorEl.textContent = `Gagal: Saldo tidak cukup (Maks: ${formatGram(goalsData[index].terkumpulGram)} gr)`;
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        if (type === 'add') goalsData[index].terkumpulGram += amount;
+        else goalsData[index].terkumpulGram -= amount;
+        
+        const tGram = goalsData[index].targetRp / HARGA_EMAS_PER_GRAM;
+        if ((goalsData[index].terkumpulGram / tGram) >= 0.5) {
+            goalsData[index].barColor = "green";
+        } else {
+            goalsData[index].barColor = "orange";
+        }
+
+        saveState();
+        renderGoals();
+        closeModal('transactionModal');
+    }
+
+    // --- DROPDOWN UTILS ---
+    function toggleMenu(event, id) {
+        event.stopPropagation();
+        const menu = document.getElementById(`menu-${id}`);
+        const isActive = menu.classList.contains('active');
+        closeAllDropdowns();
+        if (!isActive) menu.classList.add('active');
+    }
+    
+    function closeAllDropdowns() {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('active'));
+    }
+
+    // --- INISIALISASI ---
+    window.onload = () => {
+        loadState();
+        renderGoals();
+    };
+</script>
+
+</body>
+</html>

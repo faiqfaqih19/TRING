@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redeem Voucher Emas - TRING!</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #ffffff;
+            min-height: 100vh;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header & Banner Banner */
+        .header-bg {
+            background: linear-gradient(135deg, #156535 0%, #1e8745 100%);
+            padding: 20px;
+            color: white;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .nav-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .nav-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .voucher-card {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lock-icon {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        .voucher-text h3 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .voucher-text p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .badge-24h {
+            background-color: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+            border: 1px solid #ffcc00;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: auto;
+        }
+
+        /* Form Content */
+        .content {
+            padding: 20px;
+        }
+
+        .input-label {
+            color: #156535;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            letter-spacing: 4px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .code-input:focus {
+            border-color: #156535;
+        }
+
+        .input-status-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            display: none;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* Alert Boxes */
+        .alert-box {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .alert-icon {
+            font-size: 20px;
+        }
+
+        .alert-content h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .alert-content p {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* Default Info */
+        .alert-info {
+            background-color: #fff9e6;
+            border: 1px solid #ffeba1;
+            color: #8a6d3b;
+        }
+
+        /* Success */
+        .alert-success {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            color: #2e7d32;
+            display: none;
+            flex-direction: column;
+        }
+        
+        .success-header {
+            display: flex;
+            gap: 12px;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .gold-amount {
+            background-color: #f5b041;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .gold-desc {
+            font-size: 12px;
+            font-weight: bold;
+            color: #156535;
+        }
+
+        /* Used */
+        .alert-used {
+            background-color: #fff3e0;
+            border: 1px solid #ffe0b2;
+            color: #e65100;
+            display: none;
+        }
+
+        /* Invalid */
+        .alert-invalid {
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+            color: #c62828;
+            display: none;
+        }
+
+        /* Button */
+        .btn-redeem {
+            width: 100%;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #333;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-redeem:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .demo-section p {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .demo-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .demo-tag {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            background: white;
+        }
+        
+        .demo-tag.success { color: #333; border-color: #333; }
+        .demo-tag.used { color: #e65100; border-color: #e65100; }
+        .demo-tag.invalid { color: #c62828; border-color: #c62828; }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Header Bagian Atas -->
+    <div class="header-bg">
+        <div class="nav-header">
+            <button class="back-btn" type="button" onclick="window.location.href='tring_wifi_options.html'">←</button>
+            <h2>Redeem Voucher Emas</h2>
+        </div>
+        
+        <div class="voucher-card">
+            <div class="lock-icon">🔒</div>
+            <div class="voucher-text">
+                <h3>Voucher Round-Up</h3>
+                <p>Tukar kode voucher dari kasir menjadi saldo emas</p>
+            </div>
+            <div class="badge-24h">24 JAM</div>
+        </div>
+    </div>
+
+    <!-- Konten Utama -->
+    <div class="content">
+        <label class="input-label">MASUKKAN KODE VOUCHER</label>
+        
+        <div class="input-group">
+            <input type="text" id="voucherCode" class="code-input" placeholder="XXXX-XXXX" maxlength="9">
+            <span id="statusIcon" class="input-status-icon"></span>
+        </div>
+
+        <p class="helper-text">
+            Kode terdiri dari 8 karakter, tertera pada struk kasir The Gade Coffee & Gold atau Gadespace.
+        </p>
+
+        <!-- Pesan Default Info -->
+        <div id="alertInfo" class="alert-box alert-info">
+            <div class="alert-icon">⏱️</div>
+            <div class="alert-content">
+                <h4>Voucher berlaku 24 jam <span style="font-weight: normal;">sejak diterbitkan kasir.</span></h4>
+                <p>Pastikan kamu meredeem sebelum masa berlaku habis.</p>
+            </div>
+        </div>
+
+        <!-- Pesan Berhasil -->
+        <div id="alertSuccess" class="alert-box alert-success">
+            <div class="success-header">
+                <div class="alert-icon">🎉</div>
+                <div class="alert-content">
+                    <h4>Redeem berhasil!</h4>
+                    <p>Saldo emas berhasil ditambahkan ke Tabungan Emas kamu.</p>
+                </div>
+            </div>
+            <div class="success-card">
+                <div class="gold-amount">🟡 0.0039 <span style="font-size: 10px;">gram</span></div>
+                <span style="color: #666;">→</span>
+                <div class="gold-desc">📈 Masuk<br>tabungan emas</div>
+            </div>
+        </div>
+
+        <!-- Pesan Sudah Digunakan -->
+        <div id="alertUsed" class="alert-box alert-used">
+            <div class="alert-icon">🚫</div>
+            <div class="alert-content">
+                <h4>Voucher sudah digunakan</h4>
+                <p>Kode voucher ini sudah pernah diredeem. Setiap kode hanya bisa digunakan sekali.</p>
+            </div>
+        </div>
+
+        <!-- Pesan Tidak Valid -->
+        <div id="alertInvalid" class="alert-box alert-invalid">
+            <div class="alert-icon">❌</div>
+            <div class="alert-content">
+                <h4>Kode tidak valid</h4>
+                <p>Kode voucher tidak ditemukan atau salah. Periksa kembali kode pada strukmu.</p>
+            </div>
+        </div>
+
+        <!-- Tombol Aksi -->
+        <button class="btn-redeem" onclick="processRedeem()">
+            🎁 Redeem Voucher
+        </button>
+
+        <!-- Tombol Demo untuk Presentasi -->
+        <div class="demo-section">
+            <p>Coba kode demo:</p>
+            <div class="demo-tags">
+                <button class="demo-tag success" onclick="fillDemoCode('EMAS-1234')">EMAS-1234</button>
+                <button class="demo-tag used" onclick="fillDemoCode('GOLD-5678')">GOLD-5678</button>
+                <button class="demo-tag invalid" onclick="fillDemoCode('XXXX-9999')">XXXX-9999</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fungsi untuk memformat input otomatis menambahkan tanda hubung (-)
+    document.getElementById('voucherCode').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/-/g, '').toUpperCase();
+        if (value.length > 4) {
+            value = value.slice(0, 4) + '-' + value.slice(4, 8);
+        }
+        e.target.value = value;
+        resetAlerts(); // Sembunyikan alert saat user mengetik ulang
+    });
+
+    // Fungsi untuk mengisi input melalui tombol demo
+    function fillDemoCode(code) {
+        document.getElementById('voucherCode').value = code;
+        resetAlerts();
+    }
+
+    // Fungsi untuk mereset tampilan alert ke awal
+    function resetAlerts() {
+        document.getElementById('alertInfo').style.display = 'flex';
+        document.getElementById('alertSuccess').style.display = 'none';
+        document.getElementById('alertUsed').style.display = 'none';
+        document.getElementById('alertInvalid').style.display = 'none';
+        
+        const inputField = document.getElementById('voucherCode');
+        const statusIcon = document.getElementById('statusIcon');
+        
+        inputField.style.borderColor = '#ddd';
+        inputField.style.color = '#333';
+        statusIcon.style.display = 'none';
+    }
+
+    // Fungsi utama logika redeem
+    function processRedeem() {
+        const code = document.getElementById('voucherCode').value;
+        const inputField = document.getElementById('voucherCode');
+        const statusIcon = document.getElementById('statusIcon');
+
+        // Sembunyikan pesan info default
+        document.getElementById('alertInfo').style.display = 'none';
+        document.getElementById('alertSuccess').style.display = 'none';
+        document.getElementById('alertUsed').style.display = 'none';
+        document.getElementById('alertInvalid').style.display = 'none';
+
+        if (code === 'EMAS-1234') {
+            // Skenario 1: Berhasil
+            document.getElementById('alertSuccess').style.display = 'flex';
+            inputField.style.borderColor = '#2e7d32';
+            statusIcon.innerHTML = '✅';
+            statusIcon.style.display = 'block';
+        } 
+        else if (code === 'GOLD-5678') {
+            // Skenario 2: Sudah Digunakan
+            document.getElementById('alertUsed').style.display = 'flex';
+            inputField.style.borderColor = '#e65100';
+            statusIcon.innerHTML = '🚫';
+            statusIcon.style.display = 'block';
+        } 
+        else {
+            // Skenario 3: Tidak Valid / Salah
+            document.getElementById('alertInvalid').style.display = 'flex';
+            inputField.style.borderColor = '#c62828';
+            inputField.style.color = '#c62828';
+            statusIcon.innerHTML = '❌';
+            statusIcon.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

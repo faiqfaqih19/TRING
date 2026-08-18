@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "WiFi: Halaman Koneksi",
+            "file": "${workspaceFolder}\\Wifi\\tring_wifi_connect.html"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "WiFi: Halaman Pilihan",
+            "file": "${workspaceFolder}\\Wifi\\tring_wifi_options.html"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "WiFi: Redeem Voucher",
+            "file": "${workspaceFolder}\\Wifi\\tring_redeem_code.html"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Life Goal",
+            "file": "${workspaceFolder}\\Lifegoal\\lifegoal.html"
+        }
+    ]
+}

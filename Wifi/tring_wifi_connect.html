@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Gade Creative Lounge – Sambungkan Wi-Fi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { min-height:100vh; display:grid; place-items:center; overflow:hidden; background:#E8F5E9; font-family:'Plus Jakarta Sans',sans-serif; }
+    .phone { width:390px; min-height:780px; position:relative; overflow:hidden; border-radius:48px; background:linear-gradient(165deg,#1B5E20,#2E7D32 45%,#388E3C); box-shadow:0 40px 80px rgba(0,0,0,.22); }
+    .blob,.ring { position:absolute; border-radius:50%; pointer-events:none; }.blob { background:#fff; opacity:.1; }.blob.one { width:260px;height:260px;top:-80px;right:-60px; }.blob.two { width:160px;height:160px;bottom:180px;left:-50px; }.ring { width:320px;height:320px;top:-120px;right:-100px;border:2px solid #F5C842;opacity:.23; }
+    header { position:relative; z-index:1; padding:60px 28px 0; text-align:center; color:#fff; }
+    .wifi { width:88px;height:88px; display:grid;place-items:center; margin:0 auto 20px; border:1.5px solid rgba(255,255,255,.22); border-radius:28px; background:rgba(255,255,255,.12); font-size:42px; }
+    .brand { display:flex;justify-content:center;align-items:center;gap:10px;font-size:11px;color:rgba(255,255,255,.7); }.brand b { padding:5px 10px;border-radius:10px;background:#fff;color:#1B5E20;letter-spacing:.5px;font-size:11px; }.brand i { width:5px;height:5px;border-radius:50%;background:#F5C842; }
+    h1 { margin:20px 0 8px;font-size:24px;line-height:1.2; }.gold { color:#F5C842; } header p { max-width:270px;margin:auto;font-size:13px;line-height:1.55;color:rgba(255,255,255,.68); }
+    .card { position:absolute;bottom:0;left:0;right:0;padding:32px 28px 44px;background:#fff;border-radius:32px 32px 0 0; }
+    .network { display:flex;align-items:center;gap:14px;padding:16px 20px;margin-bottom:24px;border-radius:16px;background:#F4F6F4; }.network .icon { display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#E8F5E9;font-size:22px; }.muted { font-size:11px;color:#6B7280;margin-bottom:2px; }.network strong { color:#1A1A1A;font-size:15px; }.badge { margin-left:auto;padding:4px 10px;border-radius:20px;background:#E8F5E9;color:#2E7D32;font-size:10px;font-weight:700; }
+    .info { display:flex;gap:12px;margin-bottom:28px; }.chip { flex:1;padding:14px 8px;text-align:center;border-radius:14px;background:#FFF9E6; }.chip span { display:block;font-size:20px;margin-bottom:4px; }.chip small { display:block;color:#6B7280;font-size:10px; }.chip b { font-size:12px;color:#1A1A1A; }
+    button { width:100%;border:0;border-radius:18px;padding:18px;background:linear-gradient(135deg,#1B5E20,#2E7D32);box-shadow:0 8px 24px rgba(27,94,32,.35);color:#fff;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer; }.notice { margin-top:16px;text-align:center;color:#6B7280;font-size:11px;line-height:1.5; }
+    @media (max-width:420px) { body { background:#fff; }.phone { width:100vw;min-height:100vh;border-radius:0; } }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <div class="blob one"></div><div class="blob two"></div><div class="ring"></div>
+    <header>
+      <div class="wifi">⌁</div>
+      <div class="brand"><b>PEGADAIAN</b><i></i><span>The Gade Creative Lounge</span></div>
+      <h1>Wi-Fi Gratis<br><span class="gold">TGCL Premium</span></h1>
+      <p>Nikmati koneksi internet cepat &amp; gratis di The Gade Creative Lounge. Tap untuk terhubung.</p>
+    </header>
+    <section class="card">
+      <div class="network"><div class="icon">⌁</div><div><div class="muted">Jaringan Wi-Fi</div><strong>TGCL-Pegadaian_5G</strong></div><span class="badge">Premium</span></div>
+      <div class="info"><div class="chip"><span>🔒</span><small>Keamanan</small><b>Terenkripsi</b></div><div class="chip"><span>⚡</span><small>Kecepatan</small><b>50 Mbps</b></div><div class="chip"><span>🆓</span><small>Biaya</small><b>Gratis</b></div></div>
+      <button type="button" onclick="connectWifi()">Sambungkan ke Wi-Fi</button>
+      <p class="notice">Dengan terhubung, kamu menyetujui Syarat &amp; Ketentuan penggunaan jaringan Pegadaian.</p>
+    </section>
+  </main>
+  <script>
+    function connectWifi() {
+      const button = document.querySelector('button');
+      button.disabled = true;
+      button.textContent = 'Menghubungkan…';
+      setTimeout(() => { window.location.href = 'tring_wifi_options.html'; }, 700);
+    }
+  </script>
+</body>
+</html>

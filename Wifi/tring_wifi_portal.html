@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gade Creative Lounge – Wi-Fi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --green-dark:  #1B5E20;
+    --green-mid:   #2E7D32;
+    --green-light: #4CAF50;
+    --green-pale:  #E8F5E9;
+    --green-tint:  #C8E6C9;
+    --gold:        #D4A017;
+    --gold-light:  #F5C842;
+    --gold-pale:   #FFF9E6;
+    --white:       #FFFFFF;
+    --gray-soft:   #F4F6F4;
+    --gray-text:   #6B7280;
+    --dark:        #1A1A1A;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--green-pale);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ─── PHONE SHELL ─── */
+  .phone-shell {
+    width: 390px;
+    min-height: 780px;
+    background: var(--white);
+    border-radius: 48px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.08);
+  }
+
+  /* ─── PAGE SYSTEM ─── */
+  .page {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.45s cubic-bezier(.77,0,.18,1), opacity 0.35s ease;
+  }
+  .page.hidden {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ════════════════════════════
+     PAGE 1 – CONNECT
+  ════════════════════════════ */
+  #page1 {
+    background: linear-gradient(165deg, #1B5E20 0%, #2E7D32 45%, #388E3C 100%);
+  }
+
+  /* Decorative blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.12;
+    background: #FFFFFF;
+  }
+  .blob-1 { width:260px; height:260px; top:-80px; right:-60px; }
+  .blob-2 { width:160px; height:160px; bottom:180px; left:-50px; }
+  .blob-3 { width:90px;  height:90px;  bottom:310px; right:20px; opacity:0.08; }
+
+  /* Gold ring ornament */
+  .gold-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid var(--gold-light);
+    opacity: 0.25;
+  }
+  .ring-1 { width:320px; height:320px; top:-120px; right:-100px; }
+  .ring-2 { width:200px; height:200px; top:-60px;  right:-40px;  opacity:0.15; }
+
+  /* Leaf ornament SVG */
+  .leaf-ornament {
+    position: absolute;
+    bottom: 230px;
+    right: -10px;
+    opacity: 0.18;
+    width: 110px;
+  }
+
+  /* ── P1: Header area ── */
+  .p1-header {
+    padding: 60px 28px 0;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .wifi-icon-wrap {
+    width: 88px; height: 88px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 28px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    border: 1.5px solid rgba(255,255,255,0.22);
+    backdrop-filter: blur(8px);
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .brand-logo {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--green-dark);
+    letter-spacing: 0.5px;
+  }
+  .brand-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold-light);
+  }
+  .brand-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 500;
+  }
+
+  .p1-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  .p1-title span { color: var(--gold-light); }
+  .p1-subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.68);
+    line-height: 1.55;
+    max-width: 270px;
+    margin: 0 auto;
+  }
+
+  /* ── P1: White card ── */
+  .p1-card {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: var(--white);
+    border-radius: 32px 32px 0 0;
+    padding: 32px 28px 44px;
+    z-index: 3;
+  }
+
+  .network-info {
+    background: var(--gray-soft);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .net-icon {
+    width: 44px; height: 44px;
+    background: var(--green-pale);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .net-label {
+    font-size: 11px;
+    color: var(--gray-text);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .net-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  .net-badge {
+    margin-left: auto;
+    background: var(--green-pale);
+    color: var(--green-mid);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .connect-info {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .info-chip {
+    flex: 1;
+    background: var(--gold-pale);
+    border-radius: 14px;
+    padding: 14px;
+    text-align: center;
+  }
+  .info-chip-icon { font-size: 20px; margin-bottom: 4px; }
+  .info-chip-label {
+    font-size: 10px;
+    color: var(--gray-text);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .info-chip-val {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+
+  .btn-connect {
+    width: 100%;
+    background: linear-gradient(135deg, #1B5E20, #2E7D32);
+    color: var(--white);
+    border: none;
+    border-radius: 18px;
+    padding: 18px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 8px 24px rgba(27,94,32,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-connect::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  }
+  .btn-connect:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(27,94,32,0.4); }
+  .btn-connect:active { transform: translateY(0); }
+
+  .btn-loading {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .p1-disclaimer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray-text);
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+  .p1-disclaimer a { color: var(--green-mid); text-decoration: none; font-weight: 600; }
+
+  /* ════════════════════════════
+     PAGE 2 – CHOOSE
+  ════════════════════════════ */
+  #page2 {
+    background: var(--white);
+    flex-direction: column;
+  }
+
+  /* Green top header */
+  .p2-header {
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+    padding: 52px 28px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .p2-header .blob { background: rgba(255,255,255,0.07); }
+  .p2-header .ring-1 { opacity:0.12; }
+
+  .p2-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 2;
+  }
+  .p2-brand-logo {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 0.4px;
+  }
+  .p2-brand-sep { width:4px; height:4px; border-radius:50%; background:var(--gold-light); }
+  .p2-brand-name { font-size:11px; color:rgba(255,255,255,0.6); font-weight:500; }
+
+  .p2-success-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 600;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+  }
+  .badge-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #69F0AE;
+    box-shadow: 0 0 6px #69F0AE;
+    animation: pulse-dot 1.8s ease infinite;
+  }
+  @keyframes pulse-dot {
+    0%,100% { opacity:1; box-shadow: 0 0 6px #69F0AE; }
+    50%      { opacity:0.6; box-shadow: 0 0 12px #69F0AE; }
+  }
+
+  .p2-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    position: relative;
+    z-index: 2;
+  }
+  .p2-title span { color: var(--gold-light); }
+
+  /* gold price banner */
+  .gold-price-banner {
+    position: absolute;
+    bottom: -1px; left: 28px; right: 28px;
+    z-index: 4;
+  }
+
+  /* ── P2: Content area ── */
+  .p2-content {
+    flex: 1;
+    padding: 0 22px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 14px;
+  }
+
+  /* Gold price pill */
+  .gold-pill {
+    background: var(--gold-pale);
+    border: 1.5px solid var(--gold-light);
+    border-radius: 16px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .gold-pill-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, #D4A017, #F5C842);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .gold-pill-label {
+    font-size: 10px;
+    color: var(--gray-text);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .gold-pill-price {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--dark);
+  }
+  .gold-pill-change {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 10px;
+    border-radius: 10px;
+  }
+  .gold-pill-change.down {
+    background: #E8F5E9;
+    color: var(--green-mid);
+  }
+  .gold-pill-change.up {
+    background: #FFF3E0;
+    color: #E65100;
+  }
+
+  /* Choice cards */
+  .choice-card {
+    border-radius: 20px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+  }
+  .choice-card:hover { transform: translateY(-2px); }
+  .choice-card:active { transform: translateY(0); }
+
+  /* Card 1 – WiFi */
+  .card-wifi {
+    background: var(--gray-soft);
+    border: 1.5px solid #E5E7EB;
+  }
+  .card-wifi::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(76,175,80,0.08);
+  }
+
+  /* Card 2 – TRING! */
+  .card-tring {
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(27,94,32,0.3);
+  }
+  .card-tring::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .card-tring::after {
+    content: '';
+    position: absolute;
+    bottom: -15px; left: -15px;
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: rgba(245,200,66,0.1);
+  }
+
+  .card-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+  .card-wifi .card-tag { background: #E5E7EB; color: var(--gray-text); }
+  .card-tring .card-tag { background: rgba(245,200,66,0.2); color: var(--gold-light); }
+
+  .card-icon-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .card-icon {
+    width: 50px; height: 50px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .card-wifi .card-icon { background: #E8F5E9; }
+  .card-tring .card-icon { background: rgba(255,255,255,0.14); }
+
+  .card-body { flex: 1; }
+  .card-title {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    line-height: 1.2;
+  }
+  .card-wifi .card-title { color: var(--dark); }
+  .card-tring .card-title { color: var(--white); }
+
+  .card-desc {
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .card-wifi .card-desc { color: var(--gray-text); }
+  .card-tring .card-desc { color: rgba(255,255,255,0.72); }
+
+  .card-desc strong { color: var(--gold-light); font-weight: 700; }
+
+  .card-arrow {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .card-wifi .card-arrow { background: #E5E7EB; }
+  .card-tring .card-arrow { background: rgba(255,255,255,0.14); }
+
+  /* ── Decorative leaf strip ── */
+  .leaf-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 22px;
+    opacity: 0.45;
+  }
+  .leaf-line { flex:1; height:1px; background: var(--green-tint); }
+  .leaf-strip span { font-size: 14px; }
+
+  /* ── P2 Footer ── */
+  .p2-footer {
+    text-align: center;
+    padding: 0 28px 8px;
+    font-size: 10px;
+    color: var(--gray-text);
+    line-height: 1.5;
+  }
+
+  /* ════════════════
+     GOLD PRICE TOGGLE (demo)
+  ════════════════ */
+  .gold-price-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 4px;
+    color: var(--gray-text);
+    font-size: 9px;
+    font-weight: 600;
+  }
+  .gold-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #9CA3AF; }
+  .gold-status-dot.verified { background: #2E7D32; box-shadow: 0 0 0 3px rgba(46,125,50,.12); }
+  .gold-status-dot.stale { background: #D97706; }
+  .gold-refresh {
+    border: 0;
+    background: transparent;
+    color: var(--green-mid);
+    font: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 0 4px 6px;
+    cursor: pointer;
+  }
+  .gold-refresh:disabled { opacity: .55; cursor: wait; }
+</style>
+</head>
+<body>
+
+<div class="phone-shell">
+
+  <!-- ══════════════════════════
+       PAGE 1 — SCAN & CONNECT
+  ══════════════════════════ -->
+  <div class="page" id="page1">
+
+    <!-- Background decorations -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="gold-ring ring-1"></div>
+    <div class="gold-ring ring-2"></div>
+
+    <!-- Leaf SVG ornament -->
+    <svg class="leaf-ornament" viewBox="0 0 110 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M55 130 C55 130 10 90 10 50 C10 22 30 5 55 5 C80 5 100 22 100 50 C100 90 55 130 55 130Z" fill="#F5C842"/>
+      <path d="M55 130 L55 5" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+      <path d="M55 80 C55 80 30 65 20 45" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-linecap="round"/>
+      <path d="M55 80 C55 80 80 65 90 45" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Header -->
+    <div class="p1-header">
+      <div class="wifi-icon-wrap">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <path d="M4 16 C10 9 15 6 20 6 C25 6 30 9 36 16" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M8.5 20.5 C12.5 15.5 16.5 13 20 13 C23.5 13 27.5 15.5 31.5 20.5" stroke="rgba(255,255,255,0.75)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M13 25 C15.5 21.5 17.5 20 20 20 C22.5 20 24.5 21.5 27 25" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="20" cy="31" r="2.5" fill="#F5C842"/>
+        </svg>
+      </div>
+
+      <div class="brand-row">
+        <span class="brand-logo">PEGADAIAN</span>
+        <span class="brand-dot"></span>
+        <span class="brand-sub">The Gade Creative Lounge</span>
+      </div>
+
+      <h1 class="p1-title">Wi-Fi Gratis<br><span>TGCL Premium</span></h1>
+      <p class="p1-subtitle">Nikmati koneksi internet cepat & gratis di The Gade Creative Lounge. Tap untuk terhubung.</p>
+    </div>
+
+    <!-- White card at bottom -->
+    <div class="p1-card">
+      <div class="network-info">
+        <div class="net-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M2 8 C5.5 4.5 8 3 11 3 C14 3 16.5 4.5 20 8" stroke="#2E7D32" stroke-width="2" stroke-linecap="round"/>
+            <path d="M4.5 11 C7 8.5 9 7.5 11 7.5 C13 7.5 15 8.5 17.5 11" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+            <path d="M7.5 14 C9 12.5 10 12 11 12 C12 12 13 12.5 14.5 14" stroke="#81C784" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="11" cy="17.5" r="1.5" fill="#D4A017"/>
+          </svg>
+        </div>
+        <div>
+          <div class="net-label">Jaringan Wi-Fi</div>
+          <div class="net-name">TGCL-Pegadaian_5G</div>
+        </div>
+        <span class="net-badge">⚡ Premium</span>
+      </div>
+
+      <div class="connect-info">
+        <div class="info-chip">
+          <div class="info-chip-icon">🔒</div>
+          <div class="info-chip-label">Keamanan</div>
+          <div class="info-chip-val">Terenkripsi</div>
+        </div>
+        <div class="info-chip">
+          <div class="info-chip-icon">⚡</div>
+          <div class="info-chip-label">Kecepatan</div>
+          <div class="info-chip-val">50 Mbps</div>
+        </div>
+        <div class="info-chip">
+          <div class="info-chip-icon">🆓</div>
+          <div class="info-chip-label">Biaya</div>
+          <div class="info-chip-val">Gratis</div>
+        </div>
+      </div>
+
+      <button class="btn-connect" id="btnConnect" onclick="goToPage2()">
+        <span id="btnText" style="display:flex;align-items:center;gap:8px;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M1.5 7 C4 4 6.5 2.5 9 2.5 C11.5 2.5 14 4 16.5 7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M3.5 9.5 C5.5 7.5 7.5 6.5 9 6.5 C10.5 6.5 12.5 7.5 14.5 9.5" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="9" cy="14" r="1.8" fill="white"/>
+          </svg>
+          Sambungkan ke Wi-Fi
+        </span>
+        <span class="btn-loading" id="btnLoading">
+          <div class="spinner"></div>
+          Menghubungkan...
+        </span>
+      </button>
+
+      <p class="p1-disclaimer">
+        Dengan terhubung, kamu menyetujui <a href="#">Syarat & Ketentuan</a> penggunaan jaringan Pegadaian.
+      </p>
+    </div>
+  </div><!-- /page1 -->
+
+
+  <!-- ══════════════════════════
+       PAGE 2 — CHOOSE ACTION
+  ══════════════════════════ -->
+  <div class="page hidden" id="page2">
+
+    <!-- Green top header -->
+    <div class="p2-header">
+      <div class="blob blob-1"></div>
+      <div class="gold-ring ring-1"></div>
+
+      <div class="p2-brand">
+        <span class="p2-brand-logo">PEGADAIAN</span>
+        <span class="p2-brand-sep"></span>
+        <span class="p2-brand-name">The Gade Creative Lounge</span>
+      </div>
+
+      <div class="p2-success-badge">
+        <span class="badge-dot"></span>
+        Terhubung ke Wi-Fi
+      </div>
+
+      <h1 class="p2-title">Halo! Ada yang<br>mau kamu <span>lakukan?</span></h1>
+    </div>
+
+    <!-- Content -->
+    <div class="p2-content">
+
+      <!-- Gold price pill (dynamic) -->
+      <div class="gold-pill" id="goldPill">
+        <div class="gold-pill-icon">🪙</div>
+        <div>
+          <div class="gold-pill-label">Harga Beli Tabungan Emas Pegadaian</div>
+          <div class="gold-pill-price" id="goldPrice">Memuat harga…</div>
+          <div class="gold-price-meta">
+            <span class="gold-status-dot" id="goldStatusDot"></span>
+            <span id="goldStatus">Menghubungkan ke sumber harga</span>
+          </div>
+        </div>
+        <span class="gold-pill-change" id="goldChange">—</span>
+        <button class="gold-refresh" id="goldRefresh" type="button" onclick="refreshGoldPrice()" aria-label="Muat ulang harga emas">↻</button>
+      </div>
+
+      <!-- Card 1: WiFi only -->
+      <div class="choice-card card-wifi" onclick="alert('Selamat menikmati Wi-Fi gratis TGCL! 🎉')">
+        <span class="card-tag">Lanjut Browsing</span>
+        <div class="card-icon-row">
+          <div class="card-icon">🌐</div>
+          <div class="card-body">
+            <div class="card-title">Enjoy Free Wi-Fi</div>
+            <div class="card-desc">Langsung akses internet tanpa syarat apapun. Nikmati koneksi premium TGCL.</div>
+          </div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+
+      <!-- Card 2: TRING! (dynamic message) -->
+      <div class="choice-card card-tring" id="tringCard" onclick="alert('Membuka aplikasi TRING! Pegadaian... 🏆')">
+        <span class="card-tag" id="tringTag">Rekomendasi untuk Kamu</span>
+        <div class="card-icon-row">
+          <div class="card-icon">⭐</div>
+          <div class="card-body">
+            <div class="card-title" id="tringTitle">Harga Emas Lagi Turun!</div>
+            <div class="card-desc" id="tringDesc">
+              Saat yang tepat untuk <strong>mulai menabung emas</strong> sebagai investasi jangka panjang. Buka TRING! sekarang dan cicil dari Rp10.000 saja.
+            </div>
+          </div>
+        </div>
+        <div class="card-arrow" style="bottom:20px;">✦</div>
+      </div>
+
+    </div><!-- /p2-content -->
+
+    <div class="leaf-strip">
+      <div class="leaf-line"></div>
+      <span>🌿</span>
+      <div class="leaf-line"></div>
+    </div>
+
+    <div class="p2-footer">
+      Dipersembahkan oleh <strong>PT Pegadaian</strong> &nbsp;•&nbsp; TGCL Digital Hub<br>
+      Harga beli Tabungan Emas • dimuat ulang otomatis setiap 5 menit
+    </div>
+
+  </div><!-- /page2 -->
+
+</div><!-- /phone-shell -->
+
+
+<script>
+  // ── Navigation ──
+  function goToPage2() {
+    const btn = document.getElementById('btnConnect');
+    const btnText = document.getElementById('btnText');
+    const btnLoading = document.getElementById('btnLoading');
+
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'flex';
+    btn.style.opacity = '0.8';
+
+    setTimeout(() => {
+      window.location.href = 'tring_wifi_options.html';
+    }, 1200);
+  }
+
+  // ── Gold price states ──
+  let isDown = true;
+
+  function setGoldDown() {
+    isDown = true;
+    updateGoldUI();
+    document.getElementById('btnDown').className = 'toggle-btn active-btn';
+    document.getElementById('btnUp').className   = 'toggle-btn inactive-btn';
+  }
+
+  function setGoldUp() {
+    isDown = false;
+    updateGoldUI();
+    document.getElementById('btnDown').className = 'toggle-btn inactive-btn';
+    document.getElementById('btnUp').className   = 'toggle-btn active-btn';
+  }
+
+  function updateGoldUI() {
+    const price  = document.getElementById('goldPrice');
+    const change = document.getElementById('goldChange');
+    const tag    = document.getElementById('tringTag');
+    const title  = document.getElementById('tringTitle');
+    const desc   = document.getElementById('tringDesc');
+
+    if (isDown) {
+      price.textContent  = 'Rp26.050 / 0,01 gr';
+      change.textContent = '▼ 1,2%';
+      change.className   = 'gold-pill-change down';
+      tag.textContent    = 'Rekomendasi untuk Kamu';
+      title.textContent  = 'Harga Emas Lagi Turun!';
+      desc.innerHTML     = 'Saat yang tepat untuk <strong>mulai menabung emas</strong> sebagai investasi jangka panjang. Buka TRING! sekarang dan cicil dari Rp10.000 saja.';
+    } else {
+      price.textContent  = 'Rp26.200 / 0,01 gr';
+      change.textContent = '▲ 2,4%';
+      change.className   = 'gold-pill-change up';
+      tag.textContent    = 'Peluang Gadai Emas';
+      title.textContent  = 'Harga Emas Sedang Naik!';
+      desc.innerHTML     = 'Waktu terbaik untuk <strong>mendapatkan dana cepat</strong> lewat Gadai Emas. Gadaikan emasmu sekarang melalui TRING! dan dapat pencairan instan.';
+    }
+  }
+
+  // Init
+  // Demo updater disabled: live Pegadaian price is loaded below.
+  // Harga beli Tabungan Emas Pegadaian (per 0,01 gram).
+  // API menyediakan harga ritel Pegadaian dan histori untuk memvalidasi perubahan harian.
+  const GOLD_API = 'https://logam-mulia-api.iamutaki.workers.dev/api/prices/pegadaian';
+  const GOLD_HISTORY_API = `${GOLD_API}/history?length=2`;
+  const GOLD_CACHE_KEY = 'tgcl-verified-pegadaian-gold-price-v1';
+  const MAX_REASONABLE_DAILY_CHANGE = 0.15;
+
+  const formatIDR = value => new Intl.NumberFormat('id-ID', {
+    style: 'currency', currency: 'IDR', maximumFractionDigits: 0
+  }).format(value);
+
+  function setGoldStatus(message, state) {
+    document.getElementById('goldStatus').textContent = message;
+    document.getElementById('goldStatusDot').className = `gold-status-dot ${state || ''}`.trim();
+  }
+
+  function isValidPrice(item, previous) {
+    if (!item || item.source !== 'pegadaian' || item.weight !== 0.01 || item.weightUnit !== 'gram' ||
+        item.currency !== 'IDR' || !Number.isFinite(Number(item.sellPrice)) || Number(item.sellPrice) <= 0) return false;
+    if (!previous || !Number.isFinite(Number(previous.sellPrice))) return true;
+    return Math.abs(Number(item.sellPrice) - Number(previous.sellPrice)) / Number(previous.sellPrice) <= MAX_REASONABLE_DAILY_CHANGE;
+  }
+
+  function renderGoldPrice(current, previous, statusText, state) {
+    const price = Number(current.sellPrice);
+    const oldPrice = Number(previous && previous.sellPrice);
+    const change = document.getElementById('goldChange');
+    document.getElementById('goldPrice').textContent = `${formatIDR(price)} / 0,01 gr`;
+    setGoldStatus(statusText, state);
+    if (oldPrice > 0 && oldPrice !== price) {
+      const percent = ((price - oldPrice) / oldPrice) * 100;
+      const isUp = percent > 0;
+      change.textContent = `${isUp ? '▲' : '▼'} ${Math.abs(percent).toFixed(1).replace('.', ',')}%`;
+      change.className = `gold-pill-change ${isUp ? 'up' : 'down'}`;
+      document.getElementById('tringTag').textContent = isUp ? 'Peluang Gadai Emas' : 'Rekomendasi untuk Kamu';
+      document.getElementById('tringTitle').textContent = isUp ? 'Harga Emas Sedang Naik!' : 'Harga Emas Lagi Turun!';
+    } else {
+      change.textContent = 'Tetap';
+      change.className = 'gold-pill-change down';
+    }
+  }
+
+  async function refreshGoldPrice() {
+    const refresh = document.getElementById('goldRefresh');
+    refresh.disabled = true;
+    setGoldStatus('Memvalidasi harga Pegadaian…', '');
+    try {
+      const [currentResponse, historyResponse] = await Promise.all([
+        fetch(`${GOLD_API}?t=${Date.now()}`, { cache: 'no-store' }),
+        fetch(`${GOLD_HISTORY_API}&t=${Date.now()}`, { cache: 'no-store' })
+      ]);
+      if (!currentResponse.ok || !historyResponse.ok) throw new Error('API tidak tersedia');
+      const [currentPayload, historyPayload] = await Promise.all([currentResponse.json(), historyResponse.json()]);
+      const current = currentPayload.data && currentPayload.data[0];
+      const history = historyPayload.data || [];
+      const previous = history.find(item => item.recordedDate !== current?.recordedDate);
+      if (!currentPayload.success || !isValidPrice(current, previous)) throw new Error('Data tidak lolos validasi');
+      renderGoldPrice(current, previous, `Terverifikasi • ${current.recordedDate}`, 'verified');
+      localStorage.setItem(GOLD_CACHE_KEY, JSON.stringify({ current, previous }));
+    } catch (error) {
+      const cached = JSON.parse(localStorage.getItem(GOLD_CACHE_KEY) || 'null');
+      if (cached && isValidPrice(cached.current, cached.previous)) {
+        renderGoldPrice(cached.current, cached.previous, 'Harga terakhir tervalidasi • offline', 'stale');
+      } else {
+        document.getElementById('goldPrice').textContent = 'Harga belum tersedia';
+        document.getElementById('goldChange').textContent = '—';
+        setGoldStatus('Gagal memverifikasi—coba muat ulang', 'stale');
+      }
+      console.warn('Gold price refresh failed:', error);
+    } finally {
+      refresh.disabled = false;
+    }
+  }
+
+  refreshGoldPrice();
+  setInterval(refreshGoldPrice, 5 * 60 * 1000);
+</script>
+</body>
+</html>

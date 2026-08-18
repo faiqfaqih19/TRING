@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Gade Creative Lounge – Pilihan</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; } body { min-height:100vh;display:grid;place-items:center;background:#E8F5E9;font-family:'Plus Jakarta Sans',sans-serif;color:#1A1A1A; }
+    .phone { width:390px;min-height:780px;overflow:hidden;border-radius:48px;background:#fff;box-shadow:0 40px 80px rgba(0,0,0,.22); }.top { position:relative;overflow:hidden;padding:52px 28px 70px;background:linear-gradient(135deg,#1B5E20,#2E7D32);color:#fff; }.top:after { content:'';position:absolute;width:250px;height:250px;top:-130px;right:-100px;border:2px solid #F5C842;border-radius:50%;opacity:.18; }
+    .brand { position:relative;z-index:1;display:flex;align-items:center;gap:8px;margin-bottom:22px;font-size:11px;color:rgba(255,255,255,.65); }.brand b { padding:4px 10px;border:1px solid rgba(255,255,255,.25);border-radius:8px;background:rgba(255,255,255,.15);font-size:10px;color:#fff; }.brand i { width:4px;height:4px;border-radius:50%;background:#F5C842; }.connected { position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:6px 14px;border:1px solid rgba(255,255,255,.2);border-radius:20px;background:rgba(255,255,255,.14);font-size:12px;font-weight:600; }.connected i { width:7px;height:7px;border-radius:50%;background:#69F0AE;box-shadow:0 0 6px #69F0AE; }.top h1 { position:relative;z-index:1;font-size:22px;line-height:1.2; }.top h1 span { color:#F5C842; }
+    .content { padding:14px 22px 36px; }.price { display:flex;align-items:center;gap:12px;padding:14px 18px;margin-bottom:14px;border:1.5px solid #F5C842;border-radius:16px;background:#FFF9E6; }.coin { display:grid;place-items:center;width:38px;height:38px;flex:none;border-radius:10px;background:linear-gradient(135deg,#D4A017,#F5C842);font-size:18px; }.price small { display:block;margin-bottom:2px;color:#6B7280;font-size:10px; }.price strong { display:block;font-size:14px; }.status { display:flex;align-items:center;gap:5px;margin-top:4px;color:#6B7280;font-size:9px;font-weight:600; }.dot { width:6px;height:6px;border-radius:50%;background:#9CA3AF; }.dot.verified { background:#2E7D32;box-shadow:0 0 0 3px rgba(46,125,50,.12); }.dot.stale { background:#D97706; }.change { margin-left:auto;padding:4px 10px;border-radius:10px;background:#E8F5E9;color:#2E7D32;font-size:12px;font-weight:700;white-space:nowrap; }.change.up { background:#FFF3E0;color:#E65100; }.refresh { border:0;background:transparent;color:#2E7D32;font-size:17px;font-weight:800;cursor:pointer; }.refresh:disabled { opacity:.5; }
+    .choice { position:relative;display:block;padding:20px;margin-top:14px;overflow:hidden;border-radius:20px;text-decoration:none; }.wifi-card { border:1.5px solid #E5E7EB;background:#F4F6F4;color:#1A1A1A; }.tring-card { background:linear-gradient(135deg,#1B5E20,#2E7D32);color:#fff;box-shadow:0 10px 30px rgba(27,94,32,.3); }.tag { display:inline-block;margin-bottom:12px;padding:3px 9px;border-radius:6px;background:#E5E7EB;color:#6B7280;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase; }.tring-card .tag { background:rgba(245,200,66,.2);color:#F5C842; }.choice h2 { margin-bottom:5px;font-size:15px; }.choice p { max-width:280px;font-size:12px;line-height:1.5;color:#6B7280; }.tring-card p { color:rgba(255,255,255,.72); }.arrow { position:absolute;right:20px;bottom:20px;font-size:20px; }.footer { padding:0 28px 20px;text-align:center;color:#6B7280;font-size:10px;line-height:1.5; }
+    .modal { position:fixed;inset:0;z-index:10;display:none;align-items:end;justify-content:center;padding:20px;background:rgba(0,0,0,.45); }.modal.open { display:flex; }.modal-card { width:min(390px,100%);padding:24px;border-radius:24px;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.25); }.modal-card h2 { margin-bottom:8px;font-size:18px; }.modal-card p { color:#6B7280;font-size:13px;line-height:1.55; }.modal-actions { display:flex;gap:10px;margin-top:20px; }.modal button { flex:1;border:0;border-radius:12px;padding:13px;font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer; }.modal .cancel { background:#F4F6F4;color:#1A1A1A; }.modal .open-app { background:#1B5E20;color:#fff; }
+    @media (max-width:420px) { body { background:#fff; }.phone { width:100vw;min-height:100vh;border-radius:0; } }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <header class="top"><div class="brand"><b>PEGADAIAN</b><i></i><span>The Gade Creative Lounge</span></div><div class="connected"><i></i>Terhubung ke Wi-Fi</div><h1>Halo! Ada yang<br>mau kamu <span>lakukan?</span></h1></header>
+    <section class="content">
+      <div class="price"><div class="coin">🪙</div><div><small>Harga Beli Tabungan Emas Pegadaian</small><strong id="goldPrice">Memuat harga…</strong><div class="status"><i class="dot" id="statusDot"></i><span id="status">Menghubungkan ke sumber harga</span></div></div><span class="change" id="change">—</span><button class="refresh" id="refresh" type="button" aria-label="Muat ulang harga">↻</button></div>
+      <a class="choice wifi-card" href="https://pegadaian.co.id/"><span class="tag">Lanjut Browsing</span><h2>Enjoy Free Wi-Fi</h2><p>Langsung akses internet tanpa syarat apapun. Nikmati koneksi premium TGCL.</p><span class="arrow">→</span></a>
+      <a class="choice tring-card" href="#" onclick="openTringModal();return false;"><span class="tag" id="tag">Rekomendasi untuk Kamu</span><h2 id="title">Harga Emas Hari Ini</h2><p id="description">Pantau harga beli Tabungan Emas Pegadaian yang telah diperbarui dan tervalidasi sebelum bertransaksi.</p><span class="arrow">✦</span></a>
+      <a class="choice wifi-card" href="tring_redeem_code.html"><span class="tag">Voucher</span><h2>Redeem Voucher Emas</h2><p>Tukarkan kode dari kasir The Gade Coffee &amp; Gold atau Gadespace menjadi saldo emas.</p><span class="arrow">→</span></a>
+    </section>
+    <footer class="footer">Dipersembahkan oleh <strong>PT Pegadaian</strong> • TGCL Digital Hub<br>Harga dimuat ulang otomatis setiap 5 menit</footer>
+  </main>
+  <div class="modal" id="tringModal" role="dialog" aria-modal="true" aria-labelledby="tringModalTitle">
+    <div class="modal-card"><h2 id="tringModalTitle">Buka TRING! by Pegadaian?</h2><p id="tringModalText">Kami akan mencoba membuka aplikasi TRING!. Jika belum terpasang, kamu akan diarahkan ke toko aplikasi yang sesuai.</p><div class="modal-actions"><button class="cancel" type="button" onclick="closeTringModal()">Batal</button><button class="open-app" type="button" onclick="launchTring()">Buka TRING!</button></div></div>
+  </div>
+  <script>
+    const API = 'https://logam-mulia-api.iamutaki.workers.dev/api/prices/pegadaian';
+    const HISTORY_API = `${API}/history?length=2`, CACHE_KEY = 'tgcl-verified-pegadaian-gold-price-v1', MAX_CHANGE = .15;
+    const rupiah = n => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n);
+    const valid = (item,old) => item && item.source === 'pegadaian' && item.weight === .01 && item.weightUnit === 'gram' && item.currency === 'IDR' && Number(item.sellPrice) > 0 && (!old || Math.abs(item.sellPrice-old.sellPrice)/old.sellPrice <= MAX_CHANGE);
+    function setStatus(text,state) { document.getElementById('status').textContent=text; document.getElementById('statusDot').className=`dot ${state||''}`; }
+    function render(current,previous,text,state) { const price=Number(current.sellPrice), old=Number(previous?.sellPrice), delta=old ? (price-old)/old*100 : 0, up=delta>0; document.getElementById('goldPrice').textContent=`${rupiah(price)} / 0,01 gr`; document.getElementById('change').textContent=old===price?'Tetap':`${up?'▲':'▼'} ${Math.abs(delta).toFixed(1).replace('.',',')}%`; document.getElementById('change').className=`change ${up?'up':''}`; document.getElementById('tag').textContent=up?'Peluang Gadai Emas':'Rekomendasi untuk Kamu'; document.getElementById('title').textContent=up?'Harga Emas Sedang Naik!':'Harga Emas Lagi Turun!'; setStatus(text,state); }
+    async function refreshGoldPrice() { const button=document.getElementById('refresh'); button.disabled=true; setStatus('Memvalidasi harga Pegadaian…',''); try { const [now,history]=await Promise.all([fetch(`${API}?t=${Date.now()}`,{cache:'no-store'}),fetch(`${HISTORY_API}&t=${Date.now()}`,{cache:'no-store'})]); if(!now.ok||!history.ok) throw Error(); const [nowData,historyData]=await Promise.all([now.json(),history.json()]); const current=nowData.data?.[0], previous=(historyData.data||[]).find(x=>x.recordedDate!==current?.recordedDate); if(!nowData.success||!valid(current,previous)) throw Error(); render(current,previous,`Terverifikasi • ${current.recordedDate}`,'verified'); localStorage.setItem(CACHE_KEY,JSON.stringify({current,previous})); } catch { const cached=JSON.parse(localStorage.getItem(CACHE_KEY)||'null'); if(cached&&valid(cached.current,cached.previous)) render(cached.current,cached.previous,'Harga terakhir tervalidasi • offline','stale'); else { document.getElementById('goldPrice').textContent='Harga belum tersedia'; document.getElementById('change').textContent='—'; setStatus('Gagal memverifikasi—coba muat ulang','stale'); } } finally { button.disabled=false; } }
+    document.getElementById('refresh').addEventListener('click',refreshGoldPrice); refreshGoldPrice(); setInterval(refreshGoldPrice,300000);
+
+    const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.pegadaiandigital';
+    const APP_STORE_URL = 'https://apps.apple.com/id/app/tring-by-pegadaian/id1350501409';
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    function openTringModal() { document.getElementById('tringModal').classList.add('open'); }
+    function closeTringModal() { document.getElementById('tringModal').classList.remove('open'); }
+    function launchTring() {
+      closeTringModal();
+      if (isAndroid) {
+        const fallback = encodeURIComponent(PLAY_STORE_URL);
+        window.location.href = `intent://launch/#Intent;scheme=tring;package=com.pegadaiandigital;S.browser_fallback_url=${fallback};end`;
+        setTimeout(() => { if (document.visibilityState === 'visible') window.location.href = PLAY_STORE_URL; }, 1600);
+        return;
+      }
+      // iOS browser tidak dapat mendeteksi aplikasi terpasang secara andal tanpa universal link resmi.
+      window.location.href = isIOS ? APP_STORE_URL : PLAY_STORE_URL;
+    }
+    document.getElementById('tringModal').addEventListener('click', event => { if (event.target.id === 'tringModal') closeTringModal(); });
+  </script>
+</body>
+</html>

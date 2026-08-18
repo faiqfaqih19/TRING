@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Saving Streak - TRING!</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #09802f; /* Fallback */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            /* GRADASI BACKGROUND KHAS TRING PEGADAIAN */
+            background: linear-gradient(180deg, #09802f 0%, #12933a 25%, #def2e3 60%, #eaf6ed 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+        }
+
+        /* Header (Teks Putih karena background atas gelap) */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 20px 5px 20px;
+            background-color: transparent;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 25px;
+            padding: 0 20px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .dash-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .dash-title {
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 700;
+        }
+
+        .dash-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #09802f;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .dash-value span {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .badge-good {
+            display: inline-block;
+            background-color: #ffeba1;
+            color: #b37400;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin-top: 5px;
+            margin-bottom: 8px;
+        }
+
+        .dash-desc {
+            font-size: 10px;
+            color: #666;
+        }
+
+        .mascot {
+            position: absolute;
+            right: -5px;
+            bottom: -5px;
+            font-size: 60px;
+            opacity: 0.95;
+        }
+
+        .btn-history {
+            background-color: #f5f6f8;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #333;
+            margin-top: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        /* Weekly Section Card */
+        .weekly-section {
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 20px;
+            margin: 0 20px 20px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .section-header h3 {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+
+        .section-header-title-only h3 {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1a1a1a;
+            padding: 0 20px;
+            margin-bottom: 15px;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid #156535;
+            color: #156535;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .weekly-desc {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .weeks-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .week-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .week-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+        
+        .week-item.connected::after {
+            background-color: #09802f;
+        }
+
+        .week-label {
+            font-size: 11px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .week-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            background-color: white;
+            color: transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+            z-index: 2;
+            position: relative;
+        }
+
+        .week-circle.checked {
+            background-color: #09802f;
+            border-color: #09802f;
+            color: white;
+            box-shadow: 0 2px 6px rgba(9, 128, 47, 0.3);
+        }
+
+        .weekly-alert {
+            background-color: #f0f7f3;
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border: 1px solid #dcf0e3;
+        }
+
+        .weekly-alert-text h4 {
+            font-size: 12px;
+            color: #09802f;
+            margin-bottom: 2px;
+        }
+
+        .weekly-alert-text p {
+            font-size: 10px;
+            color: #666;
+        }
+
+        /* Level Card */
+        .level-card {
+            background: linear-gradient(135deg, #09802f 0%, #1a7a40 100%);
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
+            position: relative;
+            margin: 0 20px 20px 20px;
+            box-shadow: 0 4px 15px rgba(9, 128, 47, 0.2);
+        }
+
+        .level-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .level-sub {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .medal-icon {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 40px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #f5b041;
+            border-radius: 3px;
+            width: 40%;
+            transition: width 0.5s ease-out;
+        }
+
+        .tier-list {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+        
+        .tier-list .active {
+            color: #f5b041;
+            font-weight: 800;
+            opacity: 1;
+        }
+
+        /* Reward Carousel */
+        .rewards-carousel {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 0 20px 20px 20px;
+            scrollbar-width: none;
+        }
+        .rewards-carousel::-webkit-scrollbar { display: none; }
+
+        .reward-card {
+            min-width: 150px;
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 15px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .reward-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+
+        .merchant-logo {
+            font-size: 11px;
+            font-weight: 800;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .reward-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .reward-desc {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .reward-cost {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            width: fit-content;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .merchant-logo {
+            font-size: 11px;
+            font-weight: 800;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .reward-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .reward-desc {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .reward-cost {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            width: fit-content;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .stat-icon { font-size: 24px; }
+        .stat-info h5 { font-size: 13px; color: #1a1a1a; font-weight: 800; }
+        .stat-info p { font-size: 10px; color: #666; margin-top: 2px; }
+
+        /* Floating Bottom Nav TRING Style */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 360px;
+            background-color: #044b26; /* TRING dark green pill */
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 10px;
+            z-index: 100;
+            box-shadow: 0 8px 24px rgba(4, 75, 38, 0.3);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 9px;
+            color: #8dae9d;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        /* --- MODAL STYLES (NEW) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .modal-header h3 { font-size: 16px; font-weight: 800; color: #1a1a1a; }
+        .modal-close-btn {
+            background: #f5f6f8;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            color: #333;
+        }
+        .modal-body p { font-size: 14px; color: #333; line-height: 1.5; }
+        .modal-body ul { list-style-position: inside; padding-left: 5px; margin-top: 10px; }
+        .modal-body li { font-size: 13px; color: #333; line-height: 1.6; margin-bottom: 8px; }
+        .modal-body strong { font-weight: 800; color: #09802f; }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-footer button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        .modal-footer button:disabled { opacity: 0.6; cursor: wait; }
+        .btn-primary { background: linear-gradient(135deg, #09802f 0%, #12933a 100%); color: white; }
+        .btn-secondary { background-color: #f0f7f3; color: #156535; border: 1px solid #dcf0e3; }
+
+        /* --- TOAST NOTIFICATION (NEW) --- */
+        #toastContainer {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            pointer-events: none;
+            width: calc(100% - 40px);
+            max-width: 360px;
+        }
+        .toast {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .toast.success { background-color: #09802f; }
+        .toast.error { background-color: #c0392b; }
+
+        /* --- CONFETTI (NEW) --- */
+        #confettiContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 16px;
+            opacity: 0;
+            animation: fall 4s linear forwards;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- Header -->
+    <div class="header">
+        <button class="icon-btn" onclick="history.back()">←</button>
+        <h2>Gold Saving Streak</h2>
+        <button class="icon-btn" onclick="showHelp('general')">ⓘ</button>
+    </div>
+    <div class="subtitle">Rutin nabung emas, raih poin dan banyak hadiah!</div>
+
+    <!-- Dashboard -->
+    <div class="dashboard-grid">
+        <div class="dash-card">
+            <div class="dash-title">🔥 Streak Kamu</div>
+            <div class="dash-value" id="streakValue">11 <span>pekan</span></div>
+            <div class="badge-good">Good job!</div>
+            <div class="dash-desc">Pertahankan streak-mu!</div>
+            <div class="mascot">🦸🏻‍♂️</div>
+        </div>
+        <div class="dash-card">
+            <div class="dash-title">Poin Kamu</div>
+            <div class="dash-value" style="gap: 8px;">
+                <span style="font-size: 24px; color: #f5b041;">🪙</span> <span id="pointValue" style="font-size: 26px;">320</span>
+            </div>
+            <button class="btn-history" onclick="showHelp('history')">Riwayat Poin <span>></span></button>
+        </div>
+    </div>
+
+    <!-- Weekly Section -->
+    <div class="weekly-section">
+        <div class="section-header">
+            <h3>Weekly Top-Up</h3>
+            <button class="btn-outline" onclick="showHelp('weekly')">❔ Cara Kerja</button>
+        </div>
+        <div class="weekly-desc">Lakukan top-up emas minimal Rp10.000 setiap minggu</div>
+        
+        <div class="weeks-container">
+            <!-- Tampilan Mingguan -->
+            <div class="week-item connected">
+                <div class="week-circle checked">✔</div>
+                <div class="week-label">Pekan 1</div>
+            </div>
+            <div class="week-item connected">
+                <div class="week-circle checked">✔</div>
+                <div class="week-label">Pekan 2</div>
+            </div>
+            <div class="week-item connected" id="connectionLine">
+                <div class="week-circle checked">✔</div>
+                <div class="week-label">Pekan 3</div>
+            </div>
+            <!-- Pekan 4 interaktif -->
+            <div class="week-item">
+                <div class="week-circle" id="week4" onclick="claimWeek('week4')">✔</div>
+                <div class="week-label">Pekan 4</div>
+            </div>
+        </div>
+
+        <div class="weekly-alert" id="weeklyAlert">
+            <div style="font-size: 20px;">🗓️</div>
+            <div class="weekly-alert-text">
+                <h4 id="alertTitle">Selesaikan top-up pekan ini!</h4>
+                <p id="alertDesc">Klik "Pekan 4" untuk menyelesaikan misi bulananmu.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Section -->
+    <div class="level-card">
+        <div class="medal-icon">🏅</div>
+        <div class="level-header">🌿 Level Kamu: Gold Saver</div>
+        <div class="level-sub">680 poin lagi untuk naik ke level berikutnya</div>
+        
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="levelProgress"></div>
+        </div>
+        
+        <div class="tier-list">
+            <div>Bronze<br>0-299</div>
+            <div>Silver<br>300-999</div>
+            <div class="active">Gold<br>1K-2.4K</div>
+            <div>Platinum<br>2.5K+</div>
+        </div>
+    </div>
+
+    <!-- Rewards Section -->
+    <div class="section-header-title-only">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>Tukar Poinmu</h3>
+            <span style="font-size: 11px; color: #09802f; font-weight: 700; cursor: pointer;" onclick="showHelp('rewards')">Lihat Semua ></span>
+        </div>
+    </div>
+    
+    <div class="rewards-carousel">
+        <div class="reward-card" onclick="openRedeemModal('Diskon 20% The Gade', 200)">
+            <div class="merchant-logo">☕ THE GADE</div>
+            <div class="reward-title">Diskon 20%</div>
+            <div class="reward-desc">The Gade Coffee & Gold</div>
+            <div class="reward-cost">🪙 200 poin</div>
+        </div>
+        <div class="reward-card" onclick="openRedeemModal('Diskon 25% Gadespace', 250)">
+            <div class="merchant-logo">🏢 GADESPACE</div>
+            <div class="reward-title">Diskon 25%</div>
+            <div class="reward-desc">Gadespace Coworking</div>
+            <div class="reward-cost">🪙 250 poin</div>
+        </div>
+        <div class="reward-card" onclick="openRedeemModal('Gratis 1 Jam WiFi TGCL', 150)">
+            <div class="merchant-logo">🛋️ TGCL</div>
+            <div class="reward-title">Gratis 1 Jam</div>
+            <div class="reward-desc">TGCL (WiFi Premium)</div>
+            <div class="reward-cost">🪙 150 poin</div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="section-header-title-only">
+        <h3>Statistik Kamu</h3>
+    </div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-info">
+                <h5 id="statStreak">11 Pekan</h5>
+                <p>Terbaik: 18 pekan</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🪙</div>
+            <div class="stat-info">
+                <h5 id="statPoint">320 Poin</h5>
+                <p>Sejak Jan 2026</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-info">
+                <h5>Rp120.000</h5>
+                <p>Top-Up Bulan Ini</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <div class="stat-info">
+                <h5>0,082 gr</h5>
+                <p>Total Emas (Top-Up)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='home.html'">
+            <div class="nav-icon">🏠</div>
+            <span>Home</span>
+        </div>
+        <div class="nav-item active" onclick="window.location.href='#'">
+            <div class="nav-icon">💎</div>
+            <span>Emas</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='gadai.html'">
+            <div class="nav-icon">🧾</div>
+            <span>Gadai</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='portfolio.html'">
+            <div class="nav-icon">📊</div>
+            <span>Portofolio</span>
+        </div>
+        <div class="nav-item" onclick="window.location.href='akun.html'">
+            <div class="nav-icon">👤</div>
+            <span>Akun</span>
+        </div>
+    </div>
+
+    <!-- --- INOVASI: MODALS & TOAST --- -->
+    <!-- Generic Info Modal -->
+    <div class="modal-overlay" id="infoModal" onclick="closeModal('infoModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="infoModalTitle"></h3>
+                <button class="modal-close-btn" onclick="closeModal('infoModal')">✕</button>
+            </div>
+            <div class="modal-body" id="infoModalBody">
+                <!-- Content will be injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Redeem Confirmation Modal -->
+    <div class="modal-overlay" id="redeemModal" onclick="closeModal('redeemModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Tukar Poin?</h3>
+                <button class="modal-close-btn" onclick="closeModal('redeemModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <p>Kamu akan menukar <strong id="redeemCost" style="color: #f5b041;"></strong> untuk mendapatkan <strong id="redeemItem"></strong>.</p>
+                <p style="font-size:12px; color: #666; margin-top: 15px;">Poin kamu saat ini: <strong id="currentPointsForRedeem" style="color: #1a1a1a;"></strong></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('redeemModal')">Batal</button>
+                <button class="btn-primary" id="confirmRedeemBtn" onclick="confirmRedeem()">Ya, Tukar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer"></div>
+
+    <!-- Confetti Container -->
+    <div id="confettiContainer"></div>
+
+</div>
+
+<script>
+    // --- 1. STATE VARIABLES ---
+    let gameState = {
+        streak: 11,
+        points: 320,
+        weeksCompleted: 3,
+        bestStreak: 18 // Mengasumsikan ini adalah nilai statis untuk saat ini
+    };
+
+    // --- 2. LOCALSTORAGE PERSISTENCE ---
+    const STORAGE_KEY = 'gamificationState_v1';
+
+    function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+    }
+
+    function loadState() {
+        const savedState = localStorage.getItem(STORAGE_KEY);
+        if (savedState) {
+            gameState = JSON.parse(savedState);
+        }
+    }
+
+    // --- 3. UI UPDATE LOGIC ---
+    function updateUI() {
+        // Perbarui dasbor & statistik
+        document.getElementById('streakValue').innerHTML = `${gameState.streak} <span>pekan</span>`;
+        document.getElementById('pointValue').innerText = gameState.points;
+        document.getElementById('statStreak').innerText = `${gameState.streak} Pekan`;
+        document.getElementById('statPoint').innerText = `${gameState.points} Poin`;
+        document.querySelector('#statStreak + p').innerText = `Terbaik: ${gameState.bestStreak} pekan`;
+
+        // Perbarui visual progres mingguan
+        const weekItems = document.querySelectorAll('.week-item');
+        const weekCircles = document.querySelectorAll('.week-circle');
+        weekItems.forEach((item, index) => {
+            if (index < gameState.weeksCompleted) {
+                item.classList.add('connected');
+                weekCircles[index].classList.add('checked');
+            }
+        });
+
+        // Perbarui progress bar level (contoh sederhana)
+        const progress = Math.min(((gameState.points - 300) / (1000 - 300)) * 100, 100);
+        document.getElementById('levelProgress').style.width = `${progress}%`;
+
+        // Perbarui peringatan jika bulan selesai
+        if (gameState.weeksCompleted === 4) {
+            showPerfectMonthAlert();
+        }
+    }
+
+    function showPerfectMonthAlert() {
+        document.getElementById('weeklyAlert').style.backgroundColor = '#fff9e6';
+        document.getElementById('weeklyAlert').style.borderColor = '#ffeba1';
+        document.querySelector('.weekly-alert-text h4').style.color = '#b37400';
+        document.getElementById('alertTitle').innerText = "PERFECT MONTH! 🎉";
+        document.getElementById('alertDesc').innerText = "Selamat! Kamu menyelesaikan misi sebulan penuh dan mendapat +100 Poin.";
+    }
+
+    function claimWeek(weekId) {
+        const element = document.getElementById(weekId);
+        // Hanya izinkan klaim pekan berikutnya secara berurutan
+        if (gameState.weeksCompleted === 3 && weekId === 'week4' && !element.classList.contains('checked')) {
+            // Update state
+            gameState.streak += 1;
+            gameState.points += 100; // Bonus Perfect Month
+            gameState.weeksCompleted += 1;
+
+            // Perbarui streak terbaik jika saat ini lebih tinggi
+            if (gameState.streak > gameState.bestStreak) {
+                gameState.bestStreak = gameState.streak;
+            }
+
+            // --- INOVASI: Efek & Notifikasi ---
+            createConfetti();
+            showToast("PERFECT MONTH! +100 Poin 🎉");
+
+            saveState(); // Simpan status baru ke localStorage
+            updateUI(); // Render ulang UI dengan data baru
+        } else if (element.classList.contains('checked')) {
+            showToast("Misi pekan ini sudah selesai.", "error");
+        } else {
+            showToast("Selesaikan misi pekan sebelumnya dulu ya!", "error");
+        }
+    }
+
+    // --- 4. MODAL & INTERACTIVITY (NEW) ---
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.add('active');
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.remove('active');
+    }
+
+    function showHelp(topic) {
+        const title = document.getElementById('infoModalTitle');
+        const body = document.getElementById('infoModalBody');
+        let content = '';
+        
+        switch(topic) {
+            case 'general':
+                title.innerText = 'Gold Saving Streak';
+                content = `
+                    <p>Fitur ini dibuat untuk memotivasimu menabung emas secara rutin!</p>
+                    <ul>
+                        <li><strong>Streak:</strong> Nabung emas min. Rp10.000 setiap pekan untuk menjaga streak-mu.</li>
+                        <li><strong>Poin:</strong> Dapatkan poin dari setiap misi mingguan dan bulanan.</li>
+                        <li><strong>Level:</strong> Naikkan levelmu dengan mengumpulkan poin dan dapatkan benefit lebih.</li>
+                        <li><strong>Hadiah:</strong> Tukarkan poinmu dengan berbagai voucher menarik!</li>
+                    </ul>
+                `;
+                break;
+            case 'weekly':
+                title.innerText = 'Cara Kerja Weekly Top-Up';
+                content = `
+                    <p>Selesaikan misi top-up mingguan untuk mendapatkan poin dan menjaga streak.</p>
+                    <ul>
+                        <li>Lakukan top-up Tabungan Emas minimal <strong>Rp10.000</strong> dalam satu pekan (Senin-Minggu).</li>
+                        <li>Setelah top-up, kembali ke halaman ini dan klik lingkaran pekan yang aktif untuk klaim hadiah.</li>
+                        <li>Selesaikan 4 pekan berturut-turut untuk mendapatkan bonus <strong>Perfect Month</strong> sebesar <strong>100 Poin</strong>!</li>
+                    </ul>
+                `;
+                break;
+            case 'history':
+                title.innerText = 'Riwayat Poin';
+                content = `
+                    <p>Berikut adalah riwayat perolehan poinmu (contoh):</p>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li style="border-bottom: 1px solid #eee; padding-bottom: 8px;">✅ Misi Pekan 3: <strong>+25 Poin</strong><br><small style="color:#666;">15 Jan 2026</small></li>
+                        <li style="border-bottom: 1px solid #eee; padding-bottom: 8px; margin-top: 8px;">✅ Misi Pekan 2: <strong>+25 Poin</strong><br><small style="color:#666;">8 Jan 2026</small></li>
+                        <li style="border-bottom: 1px solid #eee; padding-bottom: 8px; margin-top: 8px;">✅ Misi Pekan 1: <strong>+25 Poin</strong><br><small style="color:#666;">1 Jan 2026</small></li>
+                        <li style="margin-top: 8px;">🎉 Bonus Perfect Month (Des): <strong>+100 Poin</strong><br><small style="color:#666;">28 Des 2025</small></li>
+                    </ul>
+                `;
+                break;
+            case 'rewards':
+                 title.innerText = 'Semua Hadiah';
+                 content = `
+                    <p>Tukarkan poinmu dengan hadiah-hadiah menarik ini!</p>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li style="border-bottom: 1px solid #eee; padding-bottom: 8px; margin-top: 8px;">☕ Diskon 20% The Gade: <strong>200 Poin</strong></li>
+                        <li style="border-bottom: 1px solid #eee; padding-bottom: 8px; margin-top: 8px;">🏢 Diskon 25% Gadespace: <strong>250 Poin</strong></li>
+                        <li style="border-bottom: 1px solid #eee; padding-bottom: 8px; margin-top: 8px;">💻 Gratis 1 Jam WiFi TGCL: <strong>150 Poin</strong></li>
+                        <li style="margin-top: 8px;">💰 Voucher Emas Rp10.000: <strong>500 Poin</strong></li>
+                    </ul>
+                 `;
+                 break;
+        }
+        body.innerHTML = content;
+        openModal('infoModal');
+    }
+
+    let rewardToRedeem = { name: '', cost: 0 };
+
+    function openRedeemModal(rewardName, cost) {
+        if (gameState.points < cost) {
+            showToast("Yah, poin kamu belum cukup!", "error");
+            return;
+        }
+        rewardToRedeem = { name: rewardName, cost: cost };
+        document.getElementById('redeemItem').innerText = rewardName;
+        document.getElementById('redeemCost').innerHTML = `🪙 ${cost} poin`;
+        document.getElementById('currentPointsForRedeem').innerText = `🪙 ${gameState.points}`;
+        openModal('redeemModal');
+    }
+
+    function confirmRedeem() {
+        const btn = document.getElementById('confirmRedeemBtn');
+        btn.disabled = true;
+        btn.innerText = 'Memproses...';
+
+        setTimeout(() => {
+            gameState.points -= rewardToRedeem.cost;
+            saveState();
+            updateUI();
+            
+            closeModal('redeemModal');
+            showToast(`Berhasil! "${rewardToRedeem.name}" ditukarkan.`);
+            
+            btn.disabled = false;
+            btn.innerText = 'Ya, Tukar';
+        }, 800);
+    }
+
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerText = message;
+        container.appendChild(toast);
+
+        setTimeout(() => toast.classList.add('show'), 10); // Trigger transition
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.addEventListener('transitionend', () => toast.remove());
+        }, 3000);
+    }
+
+    function createConfetti() {
+        const container = document.getElementById('confettiContainer');
+        const colors = ['#f5b041', '#09802f', '#ffffff', '#ffeba1'];
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            container.appendChild(confetti);
+        }
+        setTimeout(() => container.innerHTML = '', 4500);
+    }
+
+    // --- 5. INITIALIZATION ---
+    window.onload = () => {
+        loadState();
+        updateUI();
+    };
+</script>
+
+</body>
+</html>
